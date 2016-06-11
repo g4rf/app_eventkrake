@@ -29,9 +29,10 @@ public class LocationArrayAdapter extends ArrayAdapter<Location> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.listitem_location, parent, false);
+
         TextView textName = (TextView) rowView.findViewById(R.id.textName);
         TextView textAddress = (TextView) rowView.findViewById(R.id.textAddress);
 
@@ -39,5 +40,21 @@ public class LocationArrayAdapter extends ArrayAdapter<Location> {
         textAddress.setText(values.get(position).address);
 
         return rowView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
+        View dropDownView = inflater.inflate(R.layout.listitem_location, parent, false);
+
+        TextView textName = (TextView) dropDownView.findViewById(R.id.textName);
+        TextView textAddress = (TextView) dropDownView.findViewById(R.id.textAddress);
+
+        textName.setText(values.get(position).name);
+        textAddress.setText(values.get(position).address);
+
+        return dropDownView;
+
     }
 }

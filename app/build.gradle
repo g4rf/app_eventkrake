@@ -8,8 +8,8 @@ android {
         applicationId "de.sophvaerck.brn2016"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.07beta"
+        versionCode 8
+        versionName "1.08beta"
     }
     buildTypes {
         release {

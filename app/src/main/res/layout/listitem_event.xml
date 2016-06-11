@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textTitle"
-        android:text="Sputnik 2.0 | Tannenstraße 15a, Dresden"
+        android:text="Sputnik 2.0 Tannenstraße 15a, Dresden"
         android:textAppearance="?android:attr/textAppearanceSmall"
         style="@android:style/TextAppearance.Small"
         android:textStyle="bold" />

@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical" >
+    tools:context="de.sophvaerck.brn2016.LocationsFragment"
+    android:id="@+id/fragmentLocations">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Orte"
+        android:layout_alignParentLeft="true"
+        android:text="Ort"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/lblLocations" />
 
-    <ListView
+    <Spinner
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvLocations"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lblLocations"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/background_light" />
+
+    <!--ListView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:id="@+id/lvLocations"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
-        android:divider="@color/colorPrimaryDark"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lblLocations"
+        android:divider="@color/colorPrimary"
         android:dividerHeight="1dp"
         android:choiceMode="singleChoice"
-        android:listSelector="@color/colorPrimary"/>
+        android:listSelector="@color/colorPrimaryDark"
+        android:background="@android:color/background_light" /-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lvLocations"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Veranstaltungen am Ort"
+        android:text="Veranstaltungen"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:id="@+id/lblEvents" />
+        android:id="@+id/lblEvents"
+        android:singleLine="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/lblEvents"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="60dp"
         android:id="@+id/lvEvents"
         android:layout_gravity="center_horizontal"
-        android:divider="@color/colorPrimaryDark" />
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="1dp"
+        android:background="@android:color/background_light" />
 
-</LinearLayout>
+</RelativeLayout>

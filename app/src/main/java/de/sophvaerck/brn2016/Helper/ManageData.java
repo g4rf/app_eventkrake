@@ -1,5 +1,7 @@
 package de.sophvaerck.brn2016.Helper;
 
+import android.widget.ArrayAdapter;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,24 +21,101 @@ import de.sophvaerck.brn2016.R;
  */
 public class ManageData {
     private static ArrayList<Location> locations = new ArrayList<>();
+    private static ArrayList<Event> events = new ArrayList<>();
 
     public static void invalidate() {
         locations.clear();
+        events.clear();
     }
 
     public static Location getLocation(String id) {
         if(locations.size() == 0) getLocations();
 
-        Helper.atWork();
         for (Location l: locations) {
-            if(l.id == id) {
-                Helper.stopWork();
+            if(l.id.equals(id)) {
                 return l;
             }
         }
-        Helper.stopWork();
 
         return null;
+    }
+
+    public static Event getEvent(String id) {
+        if(events.size() == 0) getEvents();
+
+        for (Event e: events) {
+            if(e.id.equals(id)) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public static ArrayList<Event> getEvents(Location l) {
+        if(events.size() == 0) getEvents();
+
+        ArrayList<Event> locationEvents = new ArrayList<>();
+        for (Event e: events) {
+            if(e.locationId.equals(l.id)) locationEvents.add(e);
+        }
+
+        return locationEvents;
+    }
+
+    public static ArrayList<Event> getEvents() {
+        // cached events
+        if(events.size() > 0) return events;
+
+        // get events
+        Helper.atWork();
+
+        try {
+            JSONObject data = new JSONObject(readData());
+            JSONObject jsonEvents = data.getJSONObject("events");
+
+            Iterator<String> iterator = jsonEvents.keys();
+            while(iterator.hasNext()) {
+                String id = iterator.next();
+                try {
+                    JSONObject jsonEvent = jsonEvents.getJSONObject(id);
+                    Event javaEvent = new Event();
+
+                    javaEvent.userEmail = jsonEvent.getString("useremail");
+                    javaEvent.id = jsonEvent.getString("id");
+                    javaEvent.locationId = jsonEvent.getString("locationid");
+                    javaEvent.title = jsonEvent.getString("title");
+                    javaEvent.excerpt = jsonEvent.getString("excerpt");
+                    javaEvent.text = jsonEvent.getString("text");
+                    javaEvent.url = jsonEvent.getString("url");
+                    javaEvent.image = jsonEvent.getString("image");
+                    javaEvent.festival = jsonEvent.getString("festival");
+                    javaEvent.visible = jsonEvent.getString("visible").equals("true");
+                    javaEvent.tags = jsonEvent.getString("tags");
+
+                    javaEvent.dateStart = Helper.mysqlDate.parse(jsonEvent.getString("datetime"));
+                    javaEvent.dateEnd = Helper.mysqlDate.parse(jsonEvent.getString("datetime_end"));
+
+                    javaEvent.categories = new int[jsonEvent.getJSONArray("categories").length()];
+                    for (int i = 0; i < javaEvent.categories.length; i++) {
+                        javaEvent.categories[i] = jsonEvent.getJSONArray("categories").getInt(i);
+                    }
+
+                    events.add(javaEvent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // sorting
+        Collections.sort(events);
+
+        Helper.stopWork();
+
+        return events;
     }
 
     public static ArrayList<Location> getLocations() {
@@ -58,7 +137,7 @@ public class ManageData {
                     JSONObject jsonLocation = jsonLocations.getJSONObject(id);
                     Location javaLocation = new Location();
 
-                    javaLocation.userEmail = jsonLocation.getString("userEmail");
+                    javaLocation.userEmail = jsonLocation.getString("useremail");
                     javaLocation.id = jsonLocation.getString("id");
                     javaLocation.name = jsonLocation.getString("name");
                     javaLocation.address = jsonLocation.getString("address");
@@ -67,7 +146,7 @@ public class ManageData {
                     javaLocation.text = jsonLocation.getString("text");
                     javaLocation.url = jsonLocation.getString("url");
                     javaLocation.image = jsonLocation.getString("image");
-                    javaLocation.visible = jsonLocation.getString("visible").equals("1");
+                    javaLocation.visible = jsonLocation.getString("visible").equals("true");
                     javaLocation.tags = jsonLocation.getString("tags");
 
                     javaLocation.categories = new int[jsonLocation.getJSONArray("categories").length()];

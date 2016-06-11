@@ -1,16 +1,16 @@
 package de.sophvaerck.brn2016.Helper;
 
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Jan on 10.06.2016.
  */
 public class Event implements Comparable<Event> {
-    public String useremail;
+    public String userEmail;
     public String id;
     public String locationId;
-    public Calendar dateStart;
-    public Calendar dateEnd;
+    public Date dateStart;
+    public Date dateEnd;
     public String title;
     public String excerpt;
     public String text;
