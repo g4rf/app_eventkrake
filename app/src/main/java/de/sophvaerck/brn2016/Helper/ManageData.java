@@ -20,6 +20,8 @@ import de.sophvaerck.brn2016.R;
  */
 public class ManageData {
     public static HashMap<String, Location> getLocations() {
+        Helper.atWork();
+
         HashMap<String, Location> javaLocations = new HashMap<>();
 
         try {
@@ -43,7 +45,7 @@ public class ManageData {
                     javaLocation.text = jsonLocation.getString("text");
                     javaLocation.url = jsonLocation.getString("url");
                     javaLocation.image = jsonLocation.getString("image");
-                    javaLocation.visible = jsonLocation.getString("visible") == "1" ? true : false;
+                    javaLocation.visible = jsonLocation.getString("visible").equals("1");
                     javaLocation.tags = jsonLocation.getString("tags");
 
                     javaLocation.categories = new int[jsonLocation.getJSONArray("categories").length()];
@@ -64,6 +66,8 @@ public class ManageData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Helper.stopWork();
 
         return javaLocations;
     }

@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Veranstaltungen"
+        android:text="Veranstaltungen am Ort"
         android:layout_marginTop="5dp"
         android:id="@+id/lblEvents" />
 

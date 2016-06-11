@@ -54,5 +54,5 @@
         android:layout_height="match_parent"
         android:indeterminate="true"
         android:indeterminateOnly="true"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>

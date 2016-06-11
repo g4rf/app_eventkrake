@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import de.sophvaerck.brn2016.Helper.Helper;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Helper.context = this.getBaseContext();
+        Helper.working = (ProgressBar) findViewById(R.id.working);
 
         setContentView(R.layout.activity_main);
 

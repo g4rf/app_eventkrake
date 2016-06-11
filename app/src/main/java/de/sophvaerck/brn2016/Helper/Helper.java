@@ -2,6 +2,8 @@ package de.sophvaerck.brn2016.Helper;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -29,8 +31,17 @@ public class Helper {
     public static final SimpleDateFormat readableLongDate = new SimpleDateFormat("EEEE, dd.MM., HH:mm 'Uhr'", Locale.GERMANY);
 
     public static Context context = null;
+    public static ProgressBar working = null;
 
     public static void error(String msg) {
         Log.d("ERROR", msg);
+    }
+
+    public static void atWork() {
+        if(working != null) working.setVisibility(View.VISIBLE);
+    }
+
+    public static void stopWork() {
+        if(working != null) working.setVisibility(View.GONE);
     }
 }
