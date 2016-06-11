@@ -2,15 +2,14 @@ package de.sophvaerck.brn2016.Helper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.OverlayItem;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import de.sophvaerck.brn2016.R;
@@ -19,10 +18,33 @@ import de.sophvaerck.brn2016.R;
  * Created by Jan on 08.06.2016.
  */
 public class ManageData {
-    public static HashMap<String, Location> getLocations() {
-        Helper.atWork();
+    private static ArrayList<Location> locations = new ArrayList<>();
 
-        HashMap<String, Location> javaLocations = new HashMap<>();
+    public static void invalidate() {
+        locations.clear();
+    }
+
+    public static Location getLocation(String id) {
+        if(locations.size() == 0) getLocations();
+
+        Helper.atWork();
+        for (Location l: locations) {
+            if(l.id == id) {
+                Helper.stopWork();
+                return l;
+            }
+        }
+        Helper.stopWork();
+
+        return null;
+    }
+
+    public static ArrayList<Location> getLocations() {
+        // cached locations
+        if(locations.size() > 0) return locations;
+
+        // get locations
+        Helper.atWork();
 
         try {
             JSONObject data = new JSONObject(readData());
@@ -36,7 +58,7 @@ public class ManageData {
                     JSONObject jsonLocation = jsonLocations.getJSONObject(id);
                     Location javaLocation = new Location();
 
-                    javaLocation.useremail = jsonLocation.getString("useremail");
+                    javaLocation.userEmail = jsonLocation.getString("userEmail");
                     javaLocation.id = jsonLocation.getString("id");
                     javaLocation.name = jsonLocation.getString("name");
                     javaLocation.address = jsonLocation.getString("address");
@@ -58,7 +80,7 @@ public class ManageData {
                         javaLocation.festivals[i] = jsonLocation.getJSONArray("festivals").getString(i);
                     }
 
-                    javaLocations.put(javaLocation.id, javaLocation);
+                    locations.add(javaLocation);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -67,9 +89,12 @@ public class ManageData {
             e.printStackTrace();
         }
 
+        // sorting
+        Collections.sort(locations);
+
         Helper.stopWork();
 
-        return javaLocations;
+        return locations;
     }
 
     private static String readData() {

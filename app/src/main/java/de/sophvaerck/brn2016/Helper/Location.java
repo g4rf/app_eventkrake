@@ -3,8 +3,8 @@ package de.sophvaerck.brn2016.Helper;
 /**
  * Created by Jan on 10.06.2016.
  */
-public class Location {
-    public String useremail;
+public class Location implements Comparable<Location> {
+    public String userEmail;
     public String id;
     public String name;
     public String address;
@@ -17,4 +17,9 @@ public class Location {
     public int[] categories;
     public String[] festivals;
     public String tags;
- }
+
+    @Override
+    public int compareTo(Location another) {
+        return this.name.compareToIgnoreCase(another.name);
+    }
+}

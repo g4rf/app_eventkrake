@@ -68,9 +68,9 @@ public class MapFragment extends Fragment {
 
     private void setMarker() {
         ArrayList<OverlayItem> items = new ArrayList<>();
-        for(Map.Entry<String, Location> location: ManageData.getLocations().entrySet()) {
-            items.add(new OverlayItem(location.getValue().id, null, null,
-                    new GeoPoint(location.getValue().lat, location.getValue().lng))
+        for(Location location: ManageData.getLocations()) {
+            items.add(new OverlayItem(location.id, null, null,
+                    new GeoPoint(location.lat, location.lng))
             );
         }
 
