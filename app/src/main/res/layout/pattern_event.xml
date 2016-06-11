@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/eventContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eee" >
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textLocationName"
+        android:padding="5sp"
+        android:text="Drumline Delta w/ BOWSER (L.E.)"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        style="@android:style/TextAppearance.Medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textLocationName"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textDate"
+        android:padding="3sp"
+        android:text="Sputnik 2.0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="@android:style/TextAppearance.Small"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textUrls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textTitle"
+        android:autoLink="web"
+        android:padding="5sp"
+        android:singleLine="true"
+        android:text="http://muenchen.prinz.de/termine/veranstaltungen/die-anarchistin-buehne-kultur,1566910,1-2471862,EventSchedule.html"
+        style="@android:style/TextAppearance.Small" />
+
+    <TextView
+        android:id="@+id/textText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textUrls"
+        android:padding="3sp"
+        android:text="Die deutsche Erstaufführung des neuen Stückes von David Mamet führt in ein Gefängnis. Dort entspinnt sich zwischen einer ehemaligen politischen Extremistin ..."
+        style="@android:style/TextAppearance.Small" />
+
+    <ImageView
+        android:id="@+id/imageEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textText"
+        android:layout_centerHorizontal="true"
+        android:padding="5sp"
+        android:src="@drawable/shgpuci"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textDate"
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@+id/textView1"
+        android:padding="3sp"
+        android:text="22:00 Uhr, Samstag, 26. Jan 2013"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#fff" />
+
+</RelativeLayout>
