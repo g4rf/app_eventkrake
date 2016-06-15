@@ -18,8 +18,9 @@ import de.sophvaerck.brn2016.Helper.LocationArrayAdapter;
 import de.sophvaerck.brn2016.Helper.ManageData;
 
 public class LocationsFragment extends Fragment {
-    Spinner lvLocations;
-    ListView lvEvents;
+    public View rootView;
+    public Spinner lvLocations;
+    public ListView lvEvents;
 
     public LocationsFragment() {
     }
@@ -35,7 +36,7 @@ public class LocationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         Helper.locationsFragment = this;
 
-        final View rootView = inflater.inflate(R.layout.fragment_locations, container, false);
+        rootView = inflater.inflate(R.layout.fragment_locations, container, false);
 
         lvLocations = (Spinner) rootView.findViewById(R.id.lvLocations);
         lvEvents = (ListView) rootView.findViewById(R.id.lvEvents);
@@ -49,7 +50,10 @@ public class LocationsFragment extends Fragment {
                 final Location item = (Location) parent.getItemAtPosition(position);
 
                 lvEvents.setAdapter(new EventArrayAdapter(
-                        rootView.getContext(), ManageData.getEvents(item), false
+                        rootView.getContext(),
+                        ManageData.getEvents(item),
+                        // TODO ManageData.getEvents(item, Helper.startDateForEvents, Helper.FestivalEnd),
+                        false
                 ));
             }
 

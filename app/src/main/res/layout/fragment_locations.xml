@@ -25,7 +25,7 @@
         android:layout_below="@+id/lblLocations"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@android:color/background_light" />
+        android:background="@android:drawable/btn_dropdown"/>
 
     <TextView
         android:layout_width="wrap_content"

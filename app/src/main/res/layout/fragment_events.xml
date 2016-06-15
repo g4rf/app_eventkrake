@@ -28,4 +28,18 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Nichts gefunden..."
+        android:id="@+id/textNotFound"
+        android:layout_alignTop="@+id/lvEvents"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:singleLine="false"
+        android:textColor="@color/primary_text_disabled_material_light"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
 </RelativeLayout>

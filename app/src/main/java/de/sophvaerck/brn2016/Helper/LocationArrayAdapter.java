@@ -34,6 +34,21 @@ public class LocationArrayAdapter extends ArrayAdapter<Location> {
     }
 
     @Override
+    public int getPosition(Location l) {
+        for(int i = 0; i < values.size(); i++) {
+            if(l.id.equals(values.get(i).id)) return i;
+        }
+        return -1;
+    }
+
+    public int getPosition(String locationId) {
+        for(int i = 0; i < values.size(); i++) {
+            if(locationId.equals(values.get(i).id)) return i;
+        }
+        return -1;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder(); // ViewHolder pattern
         if (convertView == null) {

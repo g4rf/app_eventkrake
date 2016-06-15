@@ -3,7 +3,8 @@
     android:id="@+id/locationItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:background="#00ffffff">
 
     <TextView
         android:id="@+id/textName"
@@ -14,7 +15,8 @@
         android:text="bühne33"
         android:textAppearance="?android:attr/textAppearanceMedium"
         style="@android:style/TextAppearance.Medium"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:background="#00ffffff" />
 
     <TextView
         android:id="@+id/textAddress"
@@ -26,7 +28,8 @@
         android:layout_toLeftOf="@+id/imageEvent"
         android:text="Böhmische Straße 33, 01099 Dresden, Deutschland"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:background="#00ffffff" />
 
     <TextView
         android:id="@+id/textUrls"
@@ -39,7 +42,8 @@
         android:singleLine="true"
         android:text="http://b-33.de"
         style="@android:style/TextAppearance.Small"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:background="#00ffffff" />
 
     <TextView
         android:id="@+id/textText"
@@ -51,7 +55,8 @@
         android:padding="3sp"
         android:text="Die deutsche Erstaufführung des neuen Stückes von David Mamet führt in ein Gefängnis. Dort entspinnt sich zwischen einer ehemaligen politischen Extremistin ..."
         style="@android:style/TextAppearance.Small"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:background="#00ffffff" />
 
     <ImageView
         android:id="@+id/imageEvent"
@@ -64,6 +69,7 @@
         android:maxWidth="100dp"
         android:paddingLeft="10sp"
         android:src="@drawable/shgpuci"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:background="#00ffffff" />
 
 </RelativeLayout>

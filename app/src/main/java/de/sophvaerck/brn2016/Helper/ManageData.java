@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 
 import de.sophvaerck.brn2016.R;
@@ -52,6 +53,21 @@ public class ManageData {
         return null;
     }
 
+    public static ArrayList<Event> getEvents(Date start, Date end) {
+        if(events.size() == 0) getEvents();
+
+        ArrayList<Event> dateEvents = new ArrayList<>();
+
+        for (Event e: events) {
+            if(e.dateEnd.before(start)) continue;
+            if(e.dateStart.after(end)) continue;
+
+            dateEvents.add(e);
+        }
+
+        return dateEvents;
+    }
+
     public static ArrayList<Event> getEvents(String s) {
         if(events.size() == 0) getEvents();
 
@@ -75,6 +91,22 @@ public class ManageData {
         }
 
         return locationEvents;
+    }
+
+    public static ArrayList<Event> getEvents(Location l, Date start, Date end) {
+        if(events.size() == 0) getEvents();
+
+        ArrayList<Event> es = new ArrayList<>();
+
+        for (Event e: events) {
+            if(! e.locationId.equals(l.id)) continue;
+            if(e.dateEnd.before(start)) continue;
+            if(e.dateStart.after(end)) continue;
+
+            es.add(e);
+        }
+
+        return es;
     }
 
     public static ArrayList<Event> getEvents() {

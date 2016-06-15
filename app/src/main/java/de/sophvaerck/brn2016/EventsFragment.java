@@ -1,5 +1,6 @@
 package de.sophvaerck.brn2016;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,8 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,10 +27,12 @@ import de.sophvaerck.brn2016.Helper.Helper;
 import de.sophvaerck.brn2016.Helper.ManageData;
 
 public class EventsFragment extends Fragment {
-    View rootView;
-    ListView lvEvents;
+    public View rootView;
+    public ListView lvEvents;
 
-    String search;
+    TextView notFound;
+
+    String search = "";
 
     public EventsFragment() {
     }
@@ -44,29 +51,13 @@ public class EventsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_events, container, false);
 
         lvEvents = (ListView) rootView.findViewById(R.id.lvEvents);
+        notFound = (TextView)  rootView.findViewById(R.id.textNotFound);
 
         lvEvents.setAdapter(new EventArrayAdapter(
-                rootView.getContext(), ManageData.getEvents()
+                rootView.getContext(),
+                ManageData.getEvents()
+                // TODO ManageData.getEvents(Helper.startDateForEvents, Helper.FestivalEnd)
         ));
-
-        /*Helper.atWork();
-
-        new AsyncTask<Void, Void, ArrayList<Event>>() {
-
-            @Override
-            protected ArrayList<Event> doInBackground(Void... params) {
-                return ManageData.getEvents();
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<Event> result) {
-                super.onPostExecute(result);
-                lvEvents.setAdapter(new EventArrayAdapter(
-                    rootView.getContext(), result
-                ));
-                Helper.stopWork();
-            }
-        }.execute();*/
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fabSearch);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +65,23 @@ public class EventsFragment extends Fragment {
             public void onClick(View view) {
                 final EditText textSearch = new EditText(getContext());
                 textSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+                textSearch.setText(search);
+                textSearch.setSelection(0, search.length());
+                textSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        textSearch.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager inputMethodManager =
+                                        (InputMethodManager) Helper.mainActivity.getSystemService(
+                                                Context.INPUT_METHOD_SERVICE);
+                                inputMethodManager.showSoftInput(
+                                        textSearch, InputMethodManager.SHOW_IMPLICIT);
+                            }
+                        });
+                    }
+                });
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -82,9 +90,17 @@ public class EventsFragment extends Fragment {
                     .setPositiveButton("Suchen", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            search = textSearch.getText().toString();
+
+                            ArrayList<Event> events = ManageData.getEvents(search);
+
+                            notFound.setVisibility(
+                                    events.size() == 0 ? View.VISIBLE : View.GONE
+                            );
+
                             lvEvents.setAdapter(new EventArrayAdapter(
                                 rootView.getContext(),
-                                ManageData.getEvents(textSearch.getText().toString()),
+                                events,
                                 false
                             ));
                         }
@@ -92,6 +108,7 @@ public class EventsFragment extends Fragment {
                     .setNegativeButton("Zurücksetzen", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            notFound.setVisibility(View.GONE);
                             lvEvents.setAdapter(new EventArrayAdapter(
                                     rootView.getContext(), ManageData.getEvents(), false
                             ));
@@ -100,8 +117,12 @@ public class EventsFragment extends Fragment {
                     });
 
                 builder.show();
+
+                textSearch.requestFocus();
             }
         });
+
+        //setHasOptionsMenu(true);
 
         return rootView;
     }

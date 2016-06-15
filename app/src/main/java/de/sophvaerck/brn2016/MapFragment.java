@@ -1,7 +1,6 @@
 package de.sophvaerck.brn2016;
 
 import android.content.DialogInterface;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -10,35 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
+import de.sophvaerck.brn2016.Helper.Event;
 import de.sophvaerck.brn2016.Helper.Helper;
 import de.sophvaerck.brn2016.Helper.Location;
+import de.sophvaerck.brn2016.Helper.LocationArrayAdapter;
 import de.sophvaerck.brn2016.Helper.ManageData;
 
 public class MapFragment extends Fragment {
@@ -49,6 +39,8 @@ public class MapFragment extends Fragment {
     ItemizedIconOverlay<OverlayItem> mMarkerOverlay;
     OverlayItem lastFocus;
     CompassOverlay mCompassOverlay;
+
+    Date lastUpdate = new Date();
 
     boolean showedInfo = false;
 
@@ -73,11 +65,26 @@ public class MapFragment extends Fragment {
 
     private void setMarker() {
         ArrayList<OverlayItem> items = new ArrayList<>();
-        for(Location location: ManageData.getLocations()) {
-            OverlayItem item = new OverlayItem(location.id, null, null,
-                    new GeoPoint(location.lat, location.lng));
-            item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-            items.add(item);
+
+        // collect OverlayItems
+        if(Helper.FestivalStart.after(new Date())) { // wir haben noch nicht den 17.6.
+            // alle Locations zusammensammeln
+            for (Location location : ManageData.getLocations()) {
+                OverlayItem item = new OverlayItem(location.id, null, null,
+                        new GeoPoint(location.lat, location.lng));
+                item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+                items.add(item);
+            }
+        } else {
+            // aktuelle Events sammeln
+            Date now = new Date(); //new GregorianCalendar(2016, 6-1, 18, 18, 43).getTime();
+            for (Event event : ManageData.getEvents(now, now)) {
+                Location location = ManageData.getLocation(event.locationId);
+                OverlayItem item = new OverlayItem(location.id, null, null,
+                        new GeoPoint(location.lat, location.lng));
+                item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+                items.add(item);
+            }
         }
 
         //the overlay
@@ -101,8 +108,13 @@ public class MapFragment extends Fragment {
                     map.invalidate();
 
                     // open locations
-                    Helper.mainActivity.mViewPager.setCurrentItem(1);
-                    Helper.locationsFragment.lvLocations.setSelection(index);
+                    int position =
+                        ((LocationArrayAdapter)Helper.locationsFragment.lvLocations.getAdapter())
+                            .getPosition(item.getUid());
+                    if(position > -1) {
+                        Helper.locationsFragment.lvLocations.setSelection(position);
+                        Helper.mainActivity.mViewPager.setCurrentItem(1);
+                    }
 
                     return true;
                 }
@@ -137,22 +149,24 @@ public class MapFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        // Info zeigen, dass erst ab Freitag die aktuellen Sachen angezeigt werden
-        if(! showedInfo && this.isVisible()) {
-            showedInfo = true;
+        if(this.isVisible()) {
+            // Info zeigen, dass erst ab Freitag die aktuellen Sachen angezeigt werden
+            if(! showedInfo) {
+                showedInfo = true;
 
-            if(Helper.FestivalStart.after(new Date())) { // wir haben noch nicht den 17.6.
-                // Use the Builder class for convenient dialog construction
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Die BRN startet am 17. Juni. Bis dahin werden Dir hier " +
-                        "alle Orte angezeigt. Sobald es los geht, siehst Du hier nur die aktuellen " +
-                        "Veranstaltungen.")
-                        .setPositiveButton("Alles klar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // do nothing
-                            }
-                        });
-                builder.show();
+                if(Helper.FestivalStart.after(new Date())) { // wir haben noch nicht den 17.6.
+                    Helper.message(this.getContext(), getString(R.string.not_started_yet));
+                }
+            }
+
+            // Anzeige ändern
+            Helper.changeTime(false);
+
+            // Ansicht ggf. aktualisieren
+            Date beforeFiveMinutes = new Date(new Date().getTime() - 1000 * 60 * 5);
+            if (lastUpdate.before(beforeFiveMinutes)) {
+                lastUpdate = new Date();
+                setMarker();
             }
         }
     }
@@ -168,21 +182,18 @@ public class MapFragment extends Fragment {
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
         map = new MapView(inflater.getContext(), mResourceProxy);
 
-        // copy tiles to osmdroid path
-        if (! copyAssetFile(Helper.context.getAssets(), "brn2016.zip",
-                OpenStreetMapTileProviderConstants.getBasePath().getPath())) {
-            Helper.error("Kein Zugriff auf externen Speicher möglich. Karte kann nicht geladen " +
-                    "werden.");
+        File tiles = new File(Helper.mainActivity.destinationPath);
+        if(tiles.exists()) {
+            map.setTileSource(
+                    new XYTileSource("brn2016", 0, 22, 256, ".png",
+                            new String[]{
+                                    "http://{a,b,c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png"
+                            }
+                    )
+            );
+        } else {
+            map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
         }
-        //map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
-        //map.setUseDataConnection(false); // nur Offline
-        map.setTileSource(
-                new XYTileSource("brn2016", 0, 22, 256, ".png",
-                        new String[] {
-                                "http://{a,b,c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png"
-                        }
-                )
-        );
 
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -222,44 +233,5 @@ public class MapFragment extends Fragment {
         restoreMapState();
 
         return map;
-    }
-
-    private boolean copyAssetFile(final AssetManager assetManager,
-                                        final String assetName,
-                                        final String destinationDirectory) {
-        InputStream in;
-        OutputStream out;
-        final String destPath = destinationDirectory + "/" + assetName;
-        final File destFile = new File(destPath);
-
-        // copy file only if it doesn't exist yet or if it's too old (24h)
-        Date yesterday = new Date(new Date().getTime() - 1000 * 60 * 60 * 24);
-        if (! destFile.exists() || new Date(destFile.lastModified()).before(yesterday)) {
-            //Log.d(LOG_TAG, String.format(
-            //       "Copy %s map archive in assets into %s", assetRelativePath, newfilePath));
-            try {
-                final File directory = destFile.getParentFile();
-                if (! directory.exists()) {
-                    if (directory.mkdirs()) {
-                        // Log.d(LOG_TAG, "Directory created: " + directory.getAbsolutePath());
-                    }
-                }
-                in = assetManager.open(assetName);
-                out = new FileOutputStream(destPath);
-                // copy file
-                final byte[] buffer = new byte[1024];
-                int read;
-                while ((read = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, read);
-                }
-                in.close();
-                out.flush();
-                out.close();
-            } catch (final Exception e) {
-                return false;
-                //Log.e(LOG_TAG, "Exception during copyAssetFile: " + Log.getStackTraceString(e));
-            }
-        }
-        return true;
     }
 }
