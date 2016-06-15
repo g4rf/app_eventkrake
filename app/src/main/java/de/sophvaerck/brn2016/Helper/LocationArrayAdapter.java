@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,34 +28,52 @@ public class LocationArrayAdapter extends ArrayAdapter<Location> {
         this.values = values;
     }
 
+    static class ViewHolder {
+        TextView textName;
+        TextView textAddress;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.listitem_location, parent, false);
+        ViewHolder holder = new ViewHolder(); // ViewHolder pattern
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.listitem_location, parent, false);
 
-        TextView textName = (TextView) rowView.findViewById(R.id.textName);
-        TextView textAddress = (TextView) rowView.findViewById(R.id.textAddress);
+            holder.textName = (TextView) convertView.findViewById(R.id.textName);
+            holder.textAddress = (TextView) convertView.findViewById(R.id.textAddress);
 
-        textName.setText(values.get(position).name);
-        textAddress.setText(values.get(position).address);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-        return rowView;
+        holder.textName.setText(values.get(position).name);
+        holder.textAddress.setText(values.get(position).address);
+
+        return convertView;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
-        View dropDownView = inflater.inflate(R.layout.listitem_location, parent, false);
+        ViewHolder holder = new ViewHolder(); // ViewHolder pattern
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.listitem_location, parent, false);
 
-        TextView textName = (TextView) dropDownView.findViewById(R.id.textName);
-        TextView textAddress = (TextView) dropDownView.findViewById(R.id.textAddress);
+            holder.textName = (TextView) convertView.findViewById(R.id.textName);
+            holder.textAddress = (TextView) convertView.findViewById(R.id.textAddress);
 
-        textName.setText(values.get(position).name);
-        textAddress.setText(values.get(position).address);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-        return dropDownView;
+        holder.textName.setText(values.get(position).name);
+        holder.textAddress.setText(values.get(position).address);
 
+        return convertView;
     }
 }

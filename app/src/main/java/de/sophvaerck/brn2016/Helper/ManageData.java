@@ -52,6 +52,20 @@ public class ManageData {
         return null;
     }
 
+    public static ArrayList<Event> getEvents(String s) {
+        if(events.size() == 0) getEvents();
+
+        s = s.toLowerCase();
+        ArrayList<Event> searchEvents = new ArrayList<>();
+
+        for (Event e: events) {
+            if(e.title.toLowerCase().contains(s) || e.text.toLowerCase().contains(s))
+                searchEvents.add(e);
+        }
+
+        return searchEvents;
+    }
+
     public static ArrayList<Event> getEvents(Location l) {
         if(events.size() == 0) getEvents();
 
@@ -68,8 +82,6 @@ public class ManageData {
         if(events.size() > 0) return events;
 
         // get events
-        Helper.atWork();
-
         try {
             JSONObject data = new JSONObject(readData());
             JSONObject jsonEvents = data.getJSONObject("events");
@@ -113,8 +125,6 @@ public class ManageData {
         // sorting
         Collections.sort(events);
 
-        Helper.stopWork();
-
         return events;
     }
 
@@ -123,8 +133,6 @@ public class ManageData {
         if(locations.size() > 0) return locations;
 
         // get locations
-        Helper.atWork();
-
         try {
             JSONObject data = new JSONObject(readData());
             JSONObject jsonLocations = data.getJSONObject("locations");
@@ -170,8 +178,6 @@ public class ManageData {
 
         // sorting
         Collections.sort(locations);
-
-        Helper.stopWork();
 
         return locations;
     }

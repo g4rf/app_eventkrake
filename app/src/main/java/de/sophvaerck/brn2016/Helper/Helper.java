@@ -12,11 +12,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import de.sophvaerck.brn2016.EventsFragment;
+import de.sophvaerck.brn2016.LocationsFragment;
+import de.sophvaerck.brn2016.MainActivity;
+import de.sophvaerck.brn2016.MapFragment;
+
 public class Helper {
     public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7538);
     public static final String FestivalId = "brn2016";
     public static final String FestivalName = "Bunte Republik Neustadt 2016";
-    public static final Date FestivalStart = (new GregorianCalendar(2016, 6-1, 17, 0, 0)).getTime();
+    public static final Date FestivalStart = (new GregorianCalendar(2016, 6-1, 17, 8, 0)).getTime();
     public static final Date FestivalEnd = (new GregorianCalendar(2016, 6-1, 20, 8, 0)).getTime();
 
     public static final int mapZoom = 16;
@@ -32,6 +37,11 @@ public class Helper {
 
     public static Context context = null;
     public static ProgressBar working = null;
+
+    public static MainActivity mainActivity = null;
+    public static EventsFragment eventsFragment = null;
+    public static LocationsFragment locationsFragment = null;
+    public static MapFragment mapFragment = null;
 
     public static void error(String msg) {
         Log.d("ERROR", msg);

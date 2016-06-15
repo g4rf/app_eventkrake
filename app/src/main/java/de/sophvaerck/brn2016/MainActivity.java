@@ -1,8 +1,10 @@
 package de.sophvaerck.brn2016;
 
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import de.sophvaerck.brn2016.Helper.Helper;
+import de.sophvaerck.brn2016.Helper.ManageData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,14 +40,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    public ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Helper.mainActivity = this;
         Helper.context = this.getBaseContext();
         Helper.working = (ProgressBar) findViewById(R.id.working);
+
+        // Events cachen
+        ManageData.getEvents();
+        ManageData.getLocations();
 
         setContentView(R.layout.activity_main);
 
@@ -61,16 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
     }
 
     @Override
@@ -87,8 +85,26 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_info) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Das ist die offizielle App der Schwafelrunde.\n" +
+                    "\n" +
+                    "REDAKTION\n" +
+                    "Schwafelrunde: brn-schwafelrunde.de\n" +
+                    "Neustadtgeflüster: neustadt-ticker.de\n" +
+                    "\n" +
+                    "PROGRAMMIERUNG & DATENBANK\n" +
+                    "Eventkrake: eventkrake.de\n" +
+                    "\n" +
+                    "KARTE\n" +
+                    "OpenStreetMap: openstreetmap.org\n" +
+                    "Hike&Bike Map: hikebikemap.org")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // do nothing
+                        }
+                    });
+            builder.show();
             return true;
         }
 

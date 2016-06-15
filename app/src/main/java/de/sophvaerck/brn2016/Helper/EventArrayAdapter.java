@@ -33,35 +33,51 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         this.showLocationInfo = showLocationInfo;
     }
 
+    static class ViewHolder {
+        TextView textDate;
+        TextView textTitle;
+        TextView textLocation;
+        TextView textUrl;
+        TextView textText;
+        int position;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.listitem_event, parent, false);
+        // ViewHolder pattern
+        ViewHolder holder = new ViewHolder();
+        if(convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.listitem_event, null);
 
-        TextView textDate = (TextView) rowView.findViewById(R.id.textDate);
-        TextView textTitle = (TextView) rowView.findViewById(R.id.textTitle);
-        TextView textLocation = (TextView) rowView.findViewById(R.id.textLocation);
-        TextView textUrl = (TextView) rowView.findViewById(R.id.textUrls);
-        TextView textText = (TextView) rowView.findViewById(R.id.textText);
-
-        // text fields
-        textTitle.setText(values.get(position).title);
-
-        String text = values.get(position).text;
-        if(text.length() == 0) {
-            textText.setVisibility(View.GONE);
+            holder.textDate = (TextView) convertView.findViewById(R.id.textDate);
+            holder.textTitle = (TextView) convertView.findViewById(R.id.textTitle);
+            holder.textLocation = (TextView) convertView.findViewById(R.id.textLocation);
+            holder.textUrl = (TextView) convertView.findViewById(R.id.textUrls);
+            holder.textText = (TextView) convertView.findViewById(R.id.textText);
+            convertView.setTag(holder);
         } else {
-            textText.setText(values.get(position).text);
-            textText.setVisibility(View.VISIBLE);
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        String url = values.get(position).url;
-        if(url.length() == 0 || url.contains("brn-schwafelrunde.de")) {
-            textUrl.setVisibility(View.GONE);
+        Event e = getItem(position);
+
+        // text fields
+        holder.textTitle.setText(e.title);
+
+        if(e.text.length() == 0) {
+            holder.textText.setVisibility(View.GONE);
         } else {
-            textUrl.setText(url);
-            textUrl.setVisibility(View.VISIBLE);
+            holder.textText.setText(e.text);
+            holder.textText.setVisibility(View.VISIBLE);
+        }
+
+        if(e.url.length() == 0 || e.url.contains("brn-schwafelrunde.de")) {
+            holder.textUrl.setVisibility(View.GONE);
+        } else {
+            holder.textUrl.setText(e.url);
+            holder.textUrl.setVisibility(View.VISIBLE);
         }
 
         // date
@@ -76,21 +92,21 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         }
         date += time.format(end);
 
-        textDate.setText(date);
+        holder.textDate.setText(date);
 
         // location
         if(showLocationInfo) {
             Location l = ManageData.getLocation(values.get(position).locationId);
             if (l != null) {
-                textLocation.setText(l.name + " || " + l.address);
-                textLocation.setVisibility(View.VISIBLE);
+                holder.textLocation.setText(l.name + " || " + l.address);
+                holder.textLocation.setVisibility(View.VISIBLE);
             } else {
-                textLocation.setVisibility(View.GONE);
+                holder.textLocation.setVisibility(View.GONE);
             }
         } else {
-            textLocation.setVisibility(View.GONE);
+            holder.textLocation.setVisibility(View.GONE);
         }
 
-        return rowView;
+        return convertView;
     }
 }

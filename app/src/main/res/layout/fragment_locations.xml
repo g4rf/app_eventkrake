@@ -14,7 +14,8 @@
         android:text="Ort"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:id="@+id/lblLocations" />
+        android:id="@+id/lblLocations"
+        android:textStyle="bold" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -26,20 +27,6 @@
         android:layout_marginRight="10dp"
         android:background="@android:color/background_light" />
 
-    <!--ListView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/lvLocations"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lblLocations"
-        android:divider="@color/colorPrimary"
-        android:dividerHeight="1dp"
-        android:choiceMode="singleChoice"
-        android:listSelector="@color/colorPrimaryDark"
-        android:background="@android:color/background_light" /-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +37,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/lblEvents"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textStyle="bold" />
 
     <ListView
         android:layout_width="match_parent"
@@ -60,7 +48,6 @@
         android:layout_below="@+id/lblEvents"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:paddingBottom="60dp"
         android:id="@+id/lvEvents"
         android:layout_gravity="center_horizontal"
         android:divider="@color/colorPrimary"

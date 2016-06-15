@@ -1,9 +1,11 @@
 package de.sophvaerck.brn2016;
 
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +49,8 @@ public class MapFragment extends Fragment {
     ItemizedIconOverlay<OverlayItem> mMarkerOverlay;
     OverlayItem lastFocus;
     CompassOverlay mCompassOverlay;
+
+    boolean showedInfo = false;
 
     int zoom = Helper.mapZoom;
     GeoPoint center = Helper.mapCenter;
@@ -69,42 +74,44 @@ public class MapFragment extends Fragment {
     private void setMarker() {
         ArrayList<OverlayItem> items = new ArrayList<>();
         for(Location location: ManageData.getLocations()) {
-            items.add(new OverlayItem(location.id, null, null,
-                    new GeoPoint(location.lat, location.lng))
-            );
+            OverlayItem item = new OverlayItem(location.id, null, null,
+                    new GeoPoint(location.lat, location.lng));
+            item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+            items.add(item);
         }
 
         //the overlay
         mMarkerOverlay = new ItemizedIconOverlay<OverlayItem>(
-                items,
-                ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null),
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        // open locations
-
-
-                        // focus changed
-                        if(lastFocus != null) {
-                            lastFocus.setMarker(ResourcesCompat.getDrawable(
-                                    getResources(), R.drawable.marker_default, null
-                            ));
-                        }
-                        lastFocus = item;
-                        item.setMarker(ResourcesCompat.getDrawable(
-                                getResources(), R.drawable.marker_default_focused_base, null
+            items,
+            ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null),
+            new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                @Override
+                public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                    // focus changed
+                    if(lastFocus != null) {
+                        lastFocus.setMarker(ResourcesCompat.getDrawable(
+                                getResources(), R.drawable.marker_default, null
                         ));
-
-                        map.invalidate();
-
-                        return true;
                     }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        return false;
-                    }
-                },
-                mResourceProxy
+                    lastFocus = item;
+                    item.setMarker(ResourcesCompat.getDrawable(
+                            getResources(), R.drawable.marker_default_focused_base, null
+                    ));
+
+                    map.invalidate();
+
+                    // open locations
+                    Helper.mainActivity.mViewPager.setCurrentItem(1);
+                    Helper.locationsFragment.lvLocations.setSelection(index);
+
+                    return true;
+                }
+                @Override
+                public boolean onItemLongPress(final int index, final OverlayItem item) {
+                    return false;
+                }
+            },
+            mResourceProxy
         );
 
         if(! map.getOverlays().contains(mMarkerOverlay)) map.getOverlays().add(mMarkerOverlay);
@@ -127,9 +134,35 @@ public class MapFragment extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        // Info zeigen, dass erst ab Freitag die aktuellen Sachen angezeigt werden
+        if(! showedInfo && this.isVisible()) {
+            showedInfo = true;
+
+            if(Helper.FestivalStart.after(new Date())) { // wir haben noch nicht den 17.6.
+                // Use the Builder class for convenient dialog construction
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Die BRN startet am 17. Juni. Bis dahin werden Dir hier " +
+                        "alle Orte angezeigt. Sobald es los geht, siehst Du hier nur die aktuellen " +
+                        "Veranstaltungen.")
+                        .setPositiveButton("Alles klar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // do nothing
+                            }
+                        });
+                builder.show();
+            }
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Helper.mapFragment = this;
 
         // Die Map
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
