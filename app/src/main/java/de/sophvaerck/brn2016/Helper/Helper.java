@@ -3,6 +3,7 @@ package de.sophvaerck.brn2016.Helper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,7 @@ public class Helper {
     public static final SimpleDateFormat readableLongDate = new SimpleDateFormat("EEEE, dd.MM., HH:mm 'Uhr'", Locale.GERMANY);
 
     public static final int PERMISSION_WRITE_MAP = 0;
+    public static final int PERMISSION_ACCESS_LOCATION = 1;
 
     public static Context context = null;
     public static ProgressBar working = null;
@@ -56,30 +58,36 @@ public class Helper {
     public static Date startDateForEvents = new Date();
 
     public static void changeTime(boolean wholeProgram) {
-        if(true) return; // TODO
-
-        /*if(wholeProgram) {
+        if(wholeProgram) {
             startDateForEvents = FestivalStart;
-            Helper.mainActivity.mainMenu.findItem(R.id.action_time).setTitle(
-                    mainActivity.getString(R.string.action_time_all));
+            Helper.mainActivity.mainMenu.findItem(R.id.action_time)
+                    .setTitle(mainActivity.getString(R.string.action_time_all))
+                    .setIcon(ResourcesCompat.getDrawable(
+                            mainActivity.getResources(), R.drawable.ic_menu_allevents, null));
         } else {
             startDateForEvents = new Date();
-            Helper.mainActivity.mainMenu.findItem(R.id.action_time).setTitle(
-                    mainActivity.getString(R.string.action_time_now));
+            Helper.mainActivity.mainMenu.findItem(R.id.action_time)
+                    .setTitle(mainActivity.getString(R.string.action_time_now))
+                    .setIcon(ResourcesCompat.getDrawable(
+                            mainActivity.getResources(), R.drawable.ic_menu_newevents, null));;
         }
         // große Eventliste aktualisieren
         eventsFragment.lvEvents.setAdapter(new EventArrayAdapter(
                 eventsFragment.rootView.getContext(),
                 ManageData.getEvents(Helper.startDateForEvents, Helper.FestivalEnd)
         ));
-        // kleine Eventliste aktualisieren
+        // Locationliste aktualisieren
+        locationsFragment.lvLocations.setAdapter(new LocationArrayAdapter(
+                locationsFragment.rootView.getContext(),
+                ManageData.getLocations(Helper.startDateForEvents, Helper.FestivalEnd)
+        ));
+        /*/ kleine Eventliste aktualisieren
         locationsFragment.lvEvents.setAdapter(new EventArrayAdapter(
                 locationsFragment.rootView.getContext(),
                 ManageData.getEvents(
                         (Location)locationsFragment.lvLocations.getSelectedItem(),
                         Helper.startDateForEvents,
-                        Helper.FestivalEnd
-                ),
+                        Helper.FestivalEnd),
                 false
         ));*/
     }

@@ -42,7 +42,8 @@ public class LocationsFragment extends Fragment {
         lvEvents = (ListView) rootView.findViewById(R.id.lvEvents);
 
         lvLocations.setAdapter(new LocationArrayAdapter(
-                rootView.getContext(), ManageData.getLocations()
+                rootView.getContext(),
+                ManageData.getLocations(Helper.startDateForEvents, Helper.FestivalEnd)
         ));
         lvLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -51,8 +52,7 @@ public class LocationsFragment extends Fragment {
 
                 lvEvents.setAdapter(new EventArrayAdapter(
                         rootView.getContext(),
-                        ManageData.getEvents(item),
-                        // TODO ManageData.getEvents(item, Helper.startDateForEvents, Helper.FestivalEnd),
+                        ManageData.getEvents(item, Helper.startDateForEvents, Helper.FestivalEnd),
                         false
                 ));
             }

@@ -55,8 +55,7 @@ public class EventsFragment extends Fragment {
 
         lvEvents.setAdapter(new EventArrayAdapter(
                 rootView.getContext(),
-                ManageData.getEvents()
-                // TODO ManageData.getEvents(Helper.startDateForEvents, Helper.FestivalEnd)
+                ManageData.getEvents(Helper.startDateForEvents, Helper.FestivalEnd)
         ));
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fabSearch);
@@ -110,7 +109,10 @@ public class EventsFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             notFound.setVisibility(View.GONE);
                             lvEvents.setAdapter(new EventArrayAdapter(
-                                    rootView.getContext(), ManageData.getEvents(), false
+                                    rootView.getContext(),
+                                    ManageData.getEvents(
+                                            Helper.startDateForEvents, Helper.FestivalEnd),
+                                    false
                             ));
                             dialog.cancel();
                         }

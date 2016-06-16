@@ -2,9 +2,11 @@
     <string name="app_name">BRN 2016</string>
     <string name="action_info">Info</string>
     <string name="action_search">Suche</string>
-    <string name="action_time_now">Zeit: ab jetzt</string>
-    <string name="action_time_all">Zeit: alles</string>
-    <string name="info_text">"Das ist die offizielle App der Schwafelrunde.
+    <string name="action_time_now">Events ab jetzt</string>
+    <string name="action_time_all">alle Events</string>
+    <string name="action_location">Mein Standort</string>
+    <string name="info_text">
+"Das ist die offizielle App der Schwafelrunde.
 
 REDAKTION
 Schwafelrunde: brn-schwafelrunde.de
@@ -15,9 +17,18 @@ Eventkrake: eventkrake.de
 
 KARTE
 osmdroid: https://github.com/osmdroid/osmdroid
-Hike&amp;Bike Map: hikebikemap.org"</string>
-    <string name="no_access_to_external_storage">Ohne Zugriff auf den externen Speicher kann die
-    Karte nur mit bestehender Internetverbindung benutzt werden.</string>
+Hike&amp;Bike Map: hikebikemap.org"
+    </string>
+    <string name="no_access_to_external_storage">
+        Ohne Zugriff auf den externen Speicher kann die Karte nur mit bestehender
+        Internetverbindung benutzt werden.
+    </string>
+    <string name="no_access_to_location">
+        Ohne Zugriff auf das GPS kann der Standort nicht abgerufen werden.
+    </string>
+    <string name="access_to_location">
+        Zugriff auf das GPS gewährt.
+    </string>
     <string name="not_started_yet">Die BRN startet am 17. Juni. Bis dahin werden Dir hier alle
         Orte angezeigt.\nSobald es los geht, siehst Du hier die laufenden Veranstaltungen.
     </string>

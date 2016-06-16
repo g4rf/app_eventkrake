@@ -83,8 +83,8 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         // date
         SimpleDateFormat time = new SimpleDateFormat("HH:mm 'Uhr'", Locale.GERMANY);
         SimpleDateFormat weekDay = new SimpleDateFormat("EEEE", Locale.GERMANY);
-        Date start = values.get(position).dateStart;
-        Date end = values.get(position).dateEnd;
+        Date start = e.dateStart;
+        Date end = e.dateEnd;
 
         String date = weekDay.format(start) + ", " + time.format(start) + " - ";
         if(! weekDay.format(start).equals(weekDay.format(end))) {
@@ -96,7 +96,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         // location
         if(showLocationInfo) {
-            Location l = ManageData.getLocation(values.get(position).locationId);
+            Location l = ManageData.getLocation(e.locationId);
             if (l != null) {
                 holder.textLocation.setText(l.name + " || " + l.address);
                 holder.textLocation.setVisibility(View.VISIBLE);

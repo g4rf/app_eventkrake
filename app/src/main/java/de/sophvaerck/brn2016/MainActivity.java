@@ -141,26 +141,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search:
                 return false;
-            /*case R.id.action_time:
+            case R.id.action_location:
+                return false;
+            case R.id.action_time:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
                 builder.setMessage("Das gesamte Programm anzeigen oder vergangene Veranstaltungen" +
                         " ausblenden?")
-                        .setPositiveButton("Vergangene Veranstaltungen ausblenden", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Helper.changeTime(false);
-                            }
-                        })
-                        .setNegativeButton("Gesamtes Programm anzeigen", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Gesamtes Programm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Helper.changeTime(true);
                             }
+                        })
+                        .setNegativeButton("Vergangenes ausblenden", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Helper.changeTime(false);
+                            }
                         });
 
                 builder.show();
-                return true;*/
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -174,16 +176,17 @@ public class MainActivity extends AppCompatActivity {
         if(grantResults.length == 0) return;
 
         switch (requestCode) {
-            case Helper.PERMISSION_WRITE_MAP: {
+            case Helper.PERMISSION_WRITE_MAP:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted
                     copyMapTiles();
                 }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
+                break;
+            case Helper.PERMISSION_ACCESS_LOCATION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Helper.message(Helper.context, getString(R.string.access_to_location));
+                }
+                break;
         }
     }
 

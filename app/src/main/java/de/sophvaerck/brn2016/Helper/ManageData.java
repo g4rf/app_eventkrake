@@ -13,7 +13,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import de.sophvaerck.brn2016.R;
 
@@ -39,6 +41,24 @@ public class ManageData {
         }
 
         return null;
+    }
+
+    public static ArrayList<Location> getLocations(Date start, Date end) {
+        if(locations.size() == 0) getLocations();
+
+        Set<String> locationIds = new HashSet();
+        for(Event e : getEvents(start, end)) {
+            locationIds.add(e.locationId);
+        }
+
+        ArrayList<Location> dateLocations = new ArrayList<>();
+
+        for (Location l: locations) {
+            if(locationIds.contains(l.id))
+                dateLocations.add(l);
+        }
+
+        return dateLocations;
     }
 
     public static Event getEvent(String id) {
