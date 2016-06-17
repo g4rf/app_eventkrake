@@ -3,6 +3,7 @@ package de.sophvaerck.brn2016;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -70,6 +73,9 @@ public class MapFragment extends Fragment implements LocationListener {
 
     boolean showedInfo = false;
 
+    boolean trackLocation = false;
+    boolean haveFix = false;
+
     int zoom = Helper.mapZoom;
     GeoPoint center = Helper.mapCenter;
     float rotation = Helper.mapRotation;
@@ -97,7 +103,7 @@ public class MapFragment extends Fragment implements LocationListener {
         // collect OverlayItems
         if(festivalRunning) { // Festival läuft: Events sammeln
             // aktuelle Events sammeln
-            Date now = new GregorianCalendar(2016, 6-1, 19, 20, 43).getTime();
+            Date now = new Date();
             for (Event event : ManageData.getEvents(now, now)) {
                 Location location = ManageData.getLocation(event.locationId);
                 OverlayItem item = new OverlayItem(event.id, null, null,
@@ -226,8 +232,31 @@ public class MapFragment extends Fragment implements LocationListener {
 
     @Override
     public void onPause() {
-        saveMapState();
         super.onPause();
+        saveMapState();
+
+        if(trackLocation) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                lm.removeUpdates(this);
+                mLocationOverlay.disableMyLocation();
+                mLocationOverlay.disableFollowLocation();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(trackLocation) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0l, 0f, this);
+                mLocationOverlay.enableMyLocation();
+                mLocationOverlay.enableFollowLocation();
+            }
+        }
     }
 
     @Override
@@ -260,6 +289,9 @@ public class MapFragment extends Fragment implements LocationListener {
 
         Helper.mapFragment = this;
 
+        // Location manager
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
         // Die Map
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
         map = new MapView(inflater.getContext(), mResourceProxy);
@@ -281,12 +313,36 @@ public class MapFragment extends Fragment implements LocationListener {
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         map.setMaxZoomLevel(Helper.mapMaxZoom);
+        map.setMinZoomLevel(Helper.mapMinZoom);
         map.setFlingEnabled(true);
 
         mapController = map.getController();
 
         // Overlays
         map.getOverlays().clear();
+
+        // Location overlay
+        mLocationOverlay = new MyLocationNewOverlay(getContext(),
+                new GpsMyLocationProvider(getContext()), map);
+        mLocationOverlay.setDrawAccuracyEnabled(true);
+
+        mLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(
+                getContext().getResources(), R.drawable.person));
+        mLocationOverlay.setPersonHotspot(15.0f, 15.0f);
+
+        /*mLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                haveFix = true;
+                try {
+                    mapController.animateTo(mLocationOverlay.getMyLocation());
+                    mapController.setZoom(17);
+                } catch(Exception e) {
+                    Log.d("ERROR", "runOnFirstfix", e);
+                }
+            }
+        });*/
+        map.getOverlays().add(mLocationOverlay);
 
         // Kompass
         /*mCompassOverlay = new CompassOverlay(getContext(),
@@ -332,42 +388,64 @@ public class MapFragment extends Fragment implements LocationListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_location:
-                if(map.getOverlays().contains(mLocationOverlay)) {
-                    // already activated
-                    /*mLocationOverlay.disableMyLocation();
+                if(trackLocation) { // is activated
+                    lm.removeUpdates(this);
+                    mLocationOverlay.disableMyLocation();
                     mLocationOverlay.disableFollowLocation();
-                    map.getOverlays().remove(mLocationOverlay);
+                    map.invalidate();
+                    trackLocation = false;
+                    item.setIcon(android.R.drawable.ic_menu_mylocation)
+                        .setTitle(R.string.action_location);
+                } else { // start GPS tracking
+                    if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        Toast.makeText(getContext(), "Bitte warte, Standort wird ermittelt...",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                        alertDialogBuilder
+                                .setMessage("GPS ist deaktiviert. Die Einstellungen aufrufen um es" +
+                                        " zu aktivieren?")
+                                .setCancelable(false)
+                                .setPositiveButton("Einstellungen",
+                                        new DialogInterface.OnClickListener(){
+                                            public void onClick(DialogInterface dialog, int id){
+                                                startActivity(new Intent(
+                                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+                                                ));
+                                            }
+                                        })
+                                .setNegativeButton("Abbrechen",
+                                        new DialogInterface.OnClickListener(){
+                                            public void onClick(DialogInterface dialog, int id){
+                                                dialog.cancel();
+                                            }
+                                }).show();
 
-                    map.invalidate();*/
-                } else { // GPS tracking
-                    // Location manager
-                    lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                        return true;
+                    }
 
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
+
                         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0l, 0f, this);
 
-                        mLocationOverlay = new MyLocationNewOverlay(getContext(),
-                                new GpsMyLocationProvider(getContext()), map);
-                        mLocationOverlay.setDrawAccuracyEnabled(true);
-
-                        mLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(
-                                getContext().getResources(), R.drawable.person));
-                        mLocationOverlay.setPersonHotspot(15.0f, 15.0f);
-
-                        mLocationOverlay.runOnFirstFix(new Runnable() {
-                            @Override
-                            public void run() {
-                                //mLocationOverlay.disableFollowLocation();
-                                mapController.animateTo(mLocationOverlay.getMyLocation());
-                            }
-                        });
-                        map.getOverlays().add(mLocationOverlay);
-
                         mLocationOverlay.enableMyLocation();
-                        //mLocationOverlay.enableFollowLocation();
+                        mLocationOverlay.enableFollowLocation();
 
                         map.invalidate();
+
+                        trackLocation = true;
+                        item.setIcon(ResourcesCompat.getDrawable(
+                                getResources(), R.drawable.ic_menu_disable_mylocation, null))
+                            .setTitle(R.string.action_disable_location);
+                        /*if(haveFix) {
+                            try {
+                                mapController.animateTo(mLocationOverlay.getMyLocation());
+                                mapController.setZoom(17);
+                            } catch(Exception e) {
+                                Log.d("ERROR", "haveFix", e);
+                            }
+                        }*/
                     } else {
                         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                                 Manifest.permission.ACCESS_FINE_LOCATION)) {

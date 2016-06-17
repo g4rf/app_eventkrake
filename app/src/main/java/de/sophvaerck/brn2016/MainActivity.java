@@ -3,6 +3,7 @@ package de.sophvaerck.brn2016;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -184,7 +185,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Helper.PERMISSION_ACCESS_LOCATION:
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Helper.message(Helper.context, getString(R.string.access_to_location));
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        Helper.mapFragment.lm.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER, 0l, 0f, Helper.mapFragment);
+
+                        Helper.mapFragment.mLocationOverlay.enableMyLocation();
+                        Helper.mapFragment.mLocationOverlay.enableFollowLocation();
+
+                        Helper.mapFragment.trackLocation = true;
+                    }
                 }
                 break;
         }

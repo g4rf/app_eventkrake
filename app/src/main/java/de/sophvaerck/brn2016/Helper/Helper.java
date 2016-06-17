@@ -35,6 +35,7 @@ public class Helper {
 
     public static final int mapZoom = 16;
     public static final int mapMaxZoom = 19;
+    public static final int mapMinZoom = 14;
 
     public static final float mapRotation = -24.556484f;
 

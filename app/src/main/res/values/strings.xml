@@ -4,7 +4,8 @@
     <string name="action_search">Suche</string>
     <string name="action_time_now">Events ab jetzt</string>
     <string name="action_time_all">alle Events</string>
-    <string name="action_location">Mein Standort</string>
+    <string name="action_location">Standort anzeigen</string>
+    <string name="action_disable_location">Standort ausblenden</string>
     <string name="info_text">
 "Das ist die offizielle App der Schwafelrunde.
 
