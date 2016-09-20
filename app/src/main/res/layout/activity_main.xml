@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="de.sophvaerck.brn2016.MainActivity" >
+    tools:context="de.sophvaerck.eventkrake.MainActivity" >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -32,7 +32,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <de.sophvaerck.brn2016.Helper.MapViewPager
+    <de.sophvaerck.eventkrake.Helper.MapViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

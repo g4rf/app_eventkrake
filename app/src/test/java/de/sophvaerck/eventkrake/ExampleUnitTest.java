@@ -1,4 +1,4 @@
-package de.sophvaerck.brn2016;
+package de.sophvaerck.eventkrake;
 
 import org.junit.Test;
 

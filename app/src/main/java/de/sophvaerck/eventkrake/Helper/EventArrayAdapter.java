@@ -1,6 +1,7 @@
-package de.sophvaerck.brn2016.Helper;
+package de.sophvaerck.eventkrake.Helper;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.sophvaerck.brn2016.R;
+import de.sophvaerck.eventkrake.R;
 
 /**
  * Created by Jan on 11.06.2016.
@@ -69,7 +70,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         if(e.text.length() == 0) {
             holder.textText.setVisibility(View.GONE);
         } else {
-            holder.textText.setText(e.text);
+            holder.textText.setText(Html.fromHtml(e.text).toString());
             holder.textText.setVisibility(View.VISIBLE);
         }
 

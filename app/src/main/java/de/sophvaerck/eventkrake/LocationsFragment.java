@@ -1,21 +1,19 @@
-package de.sophvaerck.brn2016;
+package de.sophvaerck.eventkrake;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import de.sophvaerck.brn2016.Helper.EventArrayAdapter;
-import de.sophvaerck.brn2016.Helper.Helper;
-import de.sophvaerck.brn2016.Helper.Location;
-import de.sophvaerck.brn2016.Helper.LocationArrayAdapter;
-import de.sophvaerck.brn2016.Helper.ManageData;
+import de.sophvaerck.eventkrake.Helper.EventArrayAdapter;
+import de.sophvaerck.eventkrake.Helper.Helper;
+import de.sophvaerck.eventkrake.Helper.Location;
+import de.sophvaerck.eventkrake.Helper.LocationArrayAdapter;
+import de.sophvaerck.eventkrake.Helper.ManageData;
 
 public class LocationsFragment extends Fragment {
     public View rootView;

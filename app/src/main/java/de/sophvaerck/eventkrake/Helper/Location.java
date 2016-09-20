@@ -1,4 +1,4 @@
-package de.sophvaerck.brn2016.Helper;
+package de.sophvaerck.eventkrake.Helper;
 
 /**
  * Created by Jan on 10.06.2016.

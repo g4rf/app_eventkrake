@@ -1,6 +1,4 @@
-package de.sophvaerck.brn2016.Helper;
-
-import android.widget.ArrayAdapter;
+package de.sophvaerck.eventkrake.Helper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import de.sophvaerck.brn2016.R;
+import de.sophvaerck.eventkrake.R;
 
 /**
  * Created by Jan on 08.06.2016.

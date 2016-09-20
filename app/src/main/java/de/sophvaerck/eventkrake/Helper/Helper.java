@@ -1,11 +1,10 @@
-package de.sophvaerck.brn2016.Helper;
+package de.sophvaerck.eventkrake.Helper;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,20 +19,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import de.sophvaerck.brn2016.EventsFragment;
-import de.sophvaerck.brn2016.LocationsFragment;
-import de.sophvaerck.brn2016.MainActivity;
-import de.sophvaerck.brn2016.MapFragment;
-import de.sophvaerck.brn2016.R;
+import de.sophvaerck.eventkrake.EventsFragment;
+import de.sophvaerck.eventkrake.LocationsFragment;
+import de.sophvaerck.eventkrake.MainActivity;
+import de.sophvaerck.eventkrake.MapFragment;
+import de.sophvaerck.eventkrake.R;
 
 public class Helper {
     public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7538);
-    public static final String FestivalId = "brn2016";
-    public static final String FestivalName = "Bunte Republik Neustadt 2016";
-    public static final Date FestivalStart = (new GregorianCalendar(2016, 6-1, 17, 8, 0)).getTime();
-    public static final Date FestivalEnd = (new GregorianCalendar(2016, 6-1, 20, 8, 0)).getTime();
+    public static final String FestivalId = "naf2016";
+    public static final String FestivalName = "Neustadt Art Festival 2016";
+    public static final Date FestivalStart = (new GregorianCalendar(2016, 9-1, 22, 19, 0)).getTime();
+    public static final Date FestivalEnd = (new GregorianCalendar(2016, 9-1, 26, 6, 0)).getTime();
 
-    public static final int mapZoom = 16;
+    public static final int mapZoom = 15;
     public static final int mapMaxZoom = 19;
     public static final int mapMinZoom = 14;
 

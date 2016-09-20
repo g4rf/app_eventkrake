@@ -1,4 +1,4 @@
-package de.sophvaerck.brn2016.Helper;
+package de.sophvaerck.eventkrake.Helper;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

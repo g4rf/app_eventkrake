@@ -1,19 +1,15 @@
-package de.sophvaerck.brn2016.Helper;
+package de.sophvaerck.eventkrake.Helper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-import de.sophvaerck.brn2016.R;
+import de.sophvaerck.eventkrake.R;
 
 /**
  * Created by Jan on 11.06.2016.

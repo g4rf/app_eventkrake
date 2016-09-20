@@ -1,17 +1,13 @@
-package de.sophvaerck.brn2016;
+package de.sophvaerck.eventkrake;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -21,10 +17,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.sophvaerck.brn2016.Helper.Event;
-import de.sophvaerck.brn2016.Helper.EventArrayAdapter;
-import de.sophvaerck.brn2016.Helper.Helper;
-import de.sophvaerck.brn2016.Helper.ManageData;
+import de.sophvaerck.eventkrake.Helper.Event;
+import de.sophvaerck.eventkrake.Helper.EventArrayAdapter;
+import de.sophvaerck.eventkrake.Helper.Helper;
+import de.sophvaerck.eventkrake.Helper.ManageData;
 
 public class EventsFragment extends Fragment {
     public View rootView;

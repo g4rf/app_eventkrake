@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="de.sophvaerck.brn2016.MainActivity">
+    tools:context="de.sophvaerck.eventkrake.MainActivity">
     <item
         android:id="@+id/action_time"
         android:orderInCategory="10"

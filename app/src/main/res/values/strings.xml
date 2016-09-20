@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BRN 2016</string>
+    <string name="app_name">Neustadt Art Festival 2016</string>
     <string name="action_info">Info</string>
     <string name="action_search">Suche</string>
     <string name="action_time_now">Events ab jetzt</string>
@@ -7,11 +7,11 @@
     <string name="action_location">Standort anzeigen</string>
     <string name="action_disable_location">Standort ausblenden</string>
     <string name="info_text">
-"Das ist die offizielle App der Schwafelrunde.
+"Das ist die App zum Neustadt Art Festival.
 
 REDAKTION
-Schwafelrunde: brn-schwafelrunde.de
-Neustadtgeflüster: neustadt-ticker.de
+Neustadt Art Festival: neustadt-art-festival.de
+Kultur sucht Raum: kultur-sucht-raum.de
 
 PROGRAMMIERUNG &amp; DATENBANK
 Eventkrake: eventkrake.de
@@ -30,7 +30,7 @@ Hike&amp;Bike Map: hikebikemap.org"
     <string name="access_to_location">
         Zugriff auf das GPS gewährt.
     </string>
-    <string name="not_started_yet">Die BRN startet am 17. Juni. Bis dahin werden Dir hier alle
+    <string name="not_started_yet">Das NAF startet am 23. September. Bis dahin werden Dir hier alle
         Orte angezeigt.\nSobald es los geht, siehst Du hier die laufenden Veranstaltungen.
     </string>
 </resources>

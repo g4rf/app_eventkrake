@@ -1,5 +1,5 @@
-# app_BRN2016
-Die offizielle App der Schwafelrunde zur BRN 2016.
+# app_eventkrake
+Die App für Festivals wie die Bunte Republik Neustadt oder das Neustadt Art Festival.
 
 ### ACHTUNG / ATTENTION
 Die Weiternutzung des kompletten Werkes bedarf der Zustimmung des Autors. Teile des Werkes können unter der Creative-Commons-Lizenz Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International (CC-BY-NC-SA) genutzt werden. Um eine Kopie dieser Lizenz zu sehen, besuchen Sie http://creativecommons.org/licenses/by-nc-sa/4.0/.

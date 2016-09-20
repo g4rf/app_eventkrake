@@ -1,12 +1,10 @@
-package de.sophvaerck.brn2016;
+package de.sophvaerck.eventkrake;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -18,31 +16,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 
-import de.sophvaerck.brn2016.Helper.Event;
-import de.sophvaerck.brn2016.Helper.EventArrayAdapter;
-import de.sophvaerck.brn2016.Helper.Helper;
-import de.sophvaerck.brn2016.Helper.ManageData;
-import de.sophvaerck.brn2016.Helper.MapViewPager;
+import de.sophvaerck.eventkrake.Helper.Helper;
+import de.sophvaerck.eventkrake.Helper.ManageData;
+import de.sophvaerck.eventkrake.Helper.MapViewPager;
 
 public class MainActivity extends AppCompatActivity {
     public Menu mainMenu;
 
-    String assetName = "brn2016.zip";
+    String assetName = "naf2016.zip";
     String destinationPath = OpenStreetMapTileProviderConstants.getBasePath().getPath()
             + "/" + assetName;
 
