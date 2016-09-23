@@ -19,10 +19,24 @@ android {
     productFlavors {
         naf2016 {
             applicationId 'de.sophtvaerck.naf2016'
-            versionCode 13
-            versionName '1.13beta'
-            minSdkVersion 11
-            targetSdkVersion 23
+            versionCode 17
+            versionName '1.17beta'
+            resValue "string", "app_name", "Neustadt Art Festival 2016"
+            resValue "string", "info_text", "Das ist die App zum Neustadt Art Festival.<br />" +
+                    "<br />" +
+                    "<b>Redaktion:</b><br />" +
+                    "<a href=\"https://naf.li\">neustadt-art-festival.de</a><br />" +
+                    "<a href=\"https://kultur-sucht-raum.de\">kultur-sucht-raum.de</a><br />" +
+                    "<br />" +
+                    "<b>Programmierung &amp; Datenbank:</b><br />" +
+                    "<a href=\"http://eventkrake.de\">eventkrake.de</a><br />" +
+                    "<br />" +
+                    "<b>Karte:</b><br />" +
+                    "<a href=\"http://github.com/osmdroid/osmdroid\">github.com/osmdroid/osmdroid</a><br />" +
+                    "<a href=\"http://hikebikemap.org\">hikebikemap.org</a>"
+            resValue "string", "not_started_yet", "Das NAF startet am 22. September. Bis dahin " +
+                    "werden Dir hier alle Orte angezeigt.<br />" +
+                    "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
         }
     }
 }

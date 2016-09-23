@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -147,7 +148,7 @@ public class MapFragment extends Fragment implements LocationListener {
                         if(e.text.length() == 0) {
                             textText.setVisibility(View.GONE);
                         } else {
-                            textText.setText(e.text);
+                            textText.setText(Html.fromHtml(e.text));
                             textText.setVisibility(View.VISIBLE);
                         }
 

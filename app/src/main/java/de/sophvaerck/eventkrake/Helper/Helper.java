@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -26,10 +27,10 @@ import de.sophvaerck.eventkrake.MapFragment;
 import de.sophvaerck.eventkrake.R;
 
 public class Helper {
-    public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7538);
+    public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7495);
     public static final String FestivalId = "naf2016";
     public static final String FestivalName = "Neustadt Art Festival 2016";
-    public static final Date FestivalStart = (new GregorianCalendar(2016, 9-1, 22, 19, 0)).getTime();
+    public static final Date FestivalStart = (new GregorianCalendar(2016, 9-1, 22, 18, 0)).getTime();
     public static final Date FestivalEnd = (new GregorianCalendar(2016, 9-1, 26, 6, 0)).getTime();
 
     public static final int mapZoom = 15;
@@ -94,7 +95,7 @@ public class Helper {
 
     public static void message(Context context, String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg)
+        builder.setMessage(Html.fromHtml(msg))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // do nothing
