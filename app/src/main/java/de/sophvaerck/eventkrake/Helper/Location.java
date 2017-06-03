@@ -1,5 +1,7 @@
 package de.sophvaerck.eventkrake.Helper;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jan on 10.06.2016.
  */
@@ -14,8 +16,8 @@ public class Location implements Comparable<Location> {
     public String url;
     public String image;
     public boolean visible;
-    public int[] categories;
-    public String[] festivals;
+    public ArrayList<String> categories = new ArrayList();;
+    public ArrayList<String> festivals = new ArrayList();;
     public String tags;
 
     @Override

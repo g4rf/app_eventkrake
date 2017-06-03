@@ -1,5 +1,6 @@
 package de.sophvaerck.eventkrake.Helper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -146,7 +147,7 @@ public class ManageData {
                     javaEvent.userEmail = jsonEvent.getString("useremail");
                     javaEvent.id = jsonEvent.getString("id");
                     javaEvent.locationId = jsonEvent.getString("locationid");
-                    javaEvent.title = jsonEvent.getString("title");
+                    javaEvent.title = jsonEvent.getString("title").replace("&amp;", "&");
                     javaEvent.excerpt = jsonEvent.getString("excerpt");
                     javaEvent.text = jsonEvent.getString("text");
                     javaEvent.url = jsonEvent.getString("url");
@@ -158,9 +159,9 @@ public class ManageData {
                     javaEvent.dateStart = Helper.mysqlDate.parse(jsonEvent.getString("datetime"));
                     javaEvent.dateEnd = Helper.mysqlDate.parse(jsonEvent.getString("datetime_end"));
 
-                    javaEvent.categories = new int[jsonEvent.getJSONArray("categories").length()];
-                    for (int i = 0; i < javaEvent.categories.length; i++) {
-                        javaEvent.categories[i] = jsonEvent.getJSONArray("categories").getInt(i);
+                    JSONArray jsonCategories = jsonEvent.getJSONArray("categories");
+                    for (int i = 0; i < jsonCategories.length(); i++) {
+                        javaEvent.categories.add(jsonCategories.getString(i));
                     }
 
                     events.add(javaEvent);
@@ -197,7 +198,7 @@ public class ManageData {
 
                     javaLocation.userEmail = jsonLocation.getString("useremail");
                     javaLocation.id = jsonLocation.getString("id");
-                    javaLocation.name = jsonLocation.getString("name");
+                    javaLocation.name = jsonLocation.getString("name").replace("&amp;", "&");
                     javaLocation.address = jsonLocation.getString("address");
                     javaLocation.lat = jsonLocation.getDouble("lat");
                     javaLocation.lng = jsonLocation.getDouble("lng");
@@ -207,14 +208,14 @@ public class ManageData {
                     javaLocation.visible = jsonLocation.getString("visible").equals("true");
                     javaLocation.tags = jsonLocation.getString("tags");
 
-                    javaLocation.categories = new int[jsonLocation.getJSONArray("categories").length()];
-                    for (int i = 0; i < javaLocation.categories.length; i++) {
-                        javaLocation.categories[i] = jsonLocation.getJSONArray("categories").getInt(i);
+                    JSONArray jsonCategories = jsonLocation.getJSONArray("categories");
+                    for (int i = 0; i < jsonCategories.length(); i++) {
+                        javaLocation.categories.add(jsonCategories.getString(i));
                     }
 
-                    javaLocation.festivals = new String[jsonLocation.getJSONArray("festivals").length()];
-                    for (int i = 0; i < javaLocation.festivals.length; i++) {
-                        javaLocation.festivals[i] = jsonLocation.getJSONArray("festivals").getString(i);
+                    JSONArray jsonFestivals = jsonLocation.getJSONArray("festivals");
+                    for (int i = 0; i < jsonFestivals.length(); i++) {
+                        javaLocation.festivals.add(jsonFestivals.getString(i));
                     }
 
                     locations.add(javaLocation);

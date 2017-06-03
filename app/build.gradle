@@ -38,6 +38,27 @@ android {
                     "werden Dir hier alle Orte angezeigt.<br />" +
                     "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
         }
+        brn2017 {
+            applicationId 'de.sophtvaerck.brn2017'
+            versionCode 18
+            versionName '1.18beta'
+            resValue "string", "app_name", "Bunte Republik Neustadt 2017"
+            resValue "string", "info_text", "Das ist die App zur Bunten Republik Neustadt.<br />" +
+                    "<br />" +
+                    "<b>Redaktion:</b><br />" +
+                    "<a href=\"http://brn-schwafelrunde.de\">BRN Schwafelrunde</a><br />" +
+                    "<a href=\"http://neustadt-ticker.de\">Neustadtgeflüster</a><br />" +
+                    "<br />" +
+                    "<b>Programmierung &amp; Datenbank:</b><br />" +
+                    "<a href=\"http://eventkrake.de\">eventkrake.de</a><br />" +
+                    "<br />" +
+                    "<b>Karte:</b><br />" +
+                    "<a href=\"http://github.com/osmdroid/osmdroid\">github.com/osmdroid/osmdroid</a><br />" +
+                    "<a href=\"http://hikebikemap.org\">hikebikemap.org</a>"
+            resValue "string", "not_started_yet", "Die BRN startet am 16. Juni. Bis dahin " +
+                    "werden Dir hier alle Orte angezeigt.<br />" +
+                    "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
+        }
     }
 }
 

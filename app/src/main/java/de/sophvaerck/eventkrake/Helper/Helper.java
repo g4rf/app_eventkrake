@@ -27,13 +27,15 @@ import de.sophvaerck.eventkrake.MapFragment;
 import de.sophvaerck.eventkrake.R;
 
 public class Helper {
-    public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7495);
-    public static final String FestivalId = "naf2016";
-    public static final String FestivalName = "Neustadt Art Festival 2016";
-    public static final Date FestivalStart = (new GregorianCalendar(2016, 9-1, 22, 18, 0)).getTime();
-    public static final Date FestivalEnd = (new GregorianCalendar(2016, 9-1, 26, 6, 0)).getTime();
+    //public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7495); // NAF
+    public static final GeoPoint mapCenter = new GeoPoint(51.067, 13.7545); // BRN
+    public static final String FestivalId = "brn2017";
+    public static final String FestivalName = "Bunte Republik Neustadt 2017";
+    public static final Date FestivalStart = (new GregorianCalendar(2017, 6-1, 16, 0, 0)).getTime();
+    public static final Date FestivalEnd = (new GregorianCalendar(2017, 6-1, 19, 8, 0)).getTime();
 
-    public static final int mapZoom = 15;
+    //public static final int mapZoom = 15; // NAF
+    public static final int mapZoom = 16; // BRN
     public static final int mapMaxZoom = 19;
     public static final int mapMinZoom = 14;
 

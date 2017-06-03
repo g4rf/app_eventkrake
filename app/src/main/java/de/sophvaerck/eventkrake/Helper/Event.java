@@ -1,5 +1,7 @@
 package de.sophvaerck.eventkrake.Helper;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -17,7 +19,7 @@ public class Event implements Comparable<Event> {
     public String url;
     public String image;
     public boolean visible;
-    public int[] categories;
+    public ArrayList<String> categories = new ArrayList();
     public String festival;
     public String tags;
 
