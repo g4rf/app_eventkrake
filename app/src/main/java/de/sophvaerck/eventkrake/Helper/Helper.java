@@ -29,10 +29,10 @@ import de.sophvaerck.eventkrake.R;
 public class Helper {
     //public static final GeoPoint mapCenter = new GeoPoint(51.0665, 13.7495); // NAF
     public static final GeoPoint mapCenter = new GeoPoint(51.067, 13.7545); // BRN
-    public static final String FestivalId = "brn2017";
-    public static final String FestivalName = "Bunte Republik Neustadt 2017";
-    public static final Date FestivalStart = (new GregorianCalendar(2017, 6-1, 16, 0, 0)).getTime();
-    public static final Date FestivalEnd = (new GregorianCalendar(2017, 6-1, 19, 8, 0)).getTime();
+    public static final String FestivalId = "brn2018";
+    public static final String FestivalName = "Bunte Republik Neustadt";
+    public static final Date FestivalStart = (new GregorianCalendar(2018, 6-1, 15, 0, 0)).getTime();
+    public static final Date FestivalEnd = (new GregorianCalendar(2018, 6-1, 18, 10, 0)).getTime();
 
     //public static final int mapZoom = 15; // NAF
     public static final int mapZoom = 16; // BRN

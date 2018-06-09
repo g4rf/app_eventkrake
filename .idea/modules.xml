@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/GoogleDrive/Programmierung/_AndroidStudio/app_eventkrake/app/app.iml" filepath="$USER_HOME$/GoogleDrive/Programmierung/_AndroidStudio/app_eventkrake/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app_eventkrake.iml" filepath="$PROJECT_DIR$/app_eventkrake.iml" />
     </modules>
   </component>

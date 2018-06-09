@@ -152,7 +152,7 @@ public class MapFragment extends Fragment implements LocationListener {
                             textText.setVisibility(View.VISIBLE);
                         }
 
-                        if(e.url.length() == 0 || e.url.contains("brn-schwafelrunde.de")) {
+                        if(e.url.length() == 0 || e.url.contains("brn-buero.de")) {
                             textUrl.setVisibility(View.GONE);
                         } else {
                             textUrl.setText(e.url);

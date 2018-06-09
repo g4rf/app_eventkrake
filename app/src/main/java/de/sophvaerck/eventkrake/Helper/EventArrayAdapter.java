@@ -74,7 +74,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
             holder.textText.setVisibility(View.VISIBLE);
         }
 
-        if(e.url.length() == 0 || e.url.contains("brn-schwafelrunde.de")) {
+        if(e.url.length() == 0 || e.url.contains("brn-buero.de")) {
             holder.textUrl.setVisibility(View.GONE);
         } else {
             holder.textUrl.setText(e.url);

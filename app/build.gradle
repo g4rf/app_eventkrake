@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '28.0.0'
     defaultConfig {
         applicationId 'de.sophtvaerck.eventkrake'
         minSdkVersion 11
@@ -12,15 +12,16 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "festival"
     productFlavors {
         naf2016 {
             applicationId 'de.sophtvaerck.naf2016'
             versionCode 17
             versionName '1.17beta'
+            dimension "festival"
             resValue "string", "app_name", "Neustadt Art Festival 2016"
             resValue "string", "info_text", "Das ist die App zum Neustadt Art Festival.<br />" +
                     "<br />" +
@@ -40,8 +41,9 @@ android {
         }
         brn2017 {
             applicationId 'de.sophtvaerck.brn2017'
-            versionCode 18
-            versionName '1.18beta'
+            versionCode 20
+            versionName '1.20beta'
+            dimension "festival"
             resValue "string", "app_name", "Bunte Republik Neustadt 2017"
             resValue "string", "info_text", "Das ist die App zur Bunten Republik Neustadt.<br />" +
                     "<br />" +
@@ -59,14 +61,58 @@ android {
                     "werden Dir hier alle Orte angezeigt.<br />" +
                     "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
         }
+        naf2017 {
+            applicationId 'de.sophtvaerck.naf2017'
+            versionCode 21
+            versionName '1.21beta'
+            dimension "festival"
+            resValue "string", "app_name", "Neustadt Art Festival 2017"
+            resValue "string", "info_text", "Das ist die App zum Neustadt Art Festival.<br />" +
+                    "<br />" +
+                    "<b>Redaktion:</b><br />" +
+                    "<a href=\"https://naf.li\">neustadt-art-festival.de</a><br />" +
+                    "<a href=\"https://kultur-sucht-raum.de\">kultur-sucht-raum.de</a><br />" +
+                    "<br />" +
+                    "<b>Programmierung &amp; Datenbank:</b><br />" +
+                    "<a href=\"http://eventkrake.de\">eventkrake.de</a><br />" +
+                    "<br />" +
+                    "<b>Karte:</b><br />" +
+                    "<a href=\"http://github.com/osmdroid/osmdroid\">github.com/osmdroid/osmdroid</a><br />" +
+                    "<a href=\"http://hikebikemap.org\">hikebikemap.org</a>"
+            resValue "string", "not_started_yet", "Das NAF startet am 22. September. Bis dahin " +
+                    "werden Dir hier alle Orte angezeigt.<br />" +
+                    "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
+        }
+        brn2018 {
+            applicationId 'de.sophtvaerck.brn2018'
+            versionCode 22
+            versionName '1.22beta'
+            dimension "festival"
+            resValue "string", "app_name", "Bunte Republik Neustadt 2018"
+            resValue "string", "info_text", "Das ist die App zur Bunten Republik Neustadt.<br />" +
+                    "<br />" +
+                    "<b>Redaktion:</b><br />" +
+                    "<a href=\"https://brn-buero.de\">BRN Büro</a><br />" +
+                    "<a href=\"https://neustadt-ticker.de\">Neustadtgeflüster</a><br />" +
+                    "<br />" +
+                    "<b>Programmierung &amp; Datenbank:</b><br />" +
+                    "<a href=\"https://eventkrake.de\">eventkrake.de</a><br />" +
+                    "<br />" +
+                    "<b>Karte:</b><br />" +
+                    "<a href=\"https://github.com/osmdroid/osmdroid\">github.com/osmdroid/osmdroid</a><br />" +
+                    "<a href=\"https://hikebikemap.org\">hikebikemap.org</a>"
+            resValue "string", "not_started_yet", "Die BRN startet am 15. Juni. Bis dahin " +
+                    "werden Dir hier alle Orte angezeigt.<br />" +
+                    "Sobald es los geht, siehst Du hier die laufenden Veranstaltungen."
+        }
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'org.osmdroid:osmdroid-android:5.1@aar'
-    compile 'org.osmdroid:osmdroid-third-party:5.0.1@aar'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    implementation 'com.android.support:design:23.4.0'
+    implementation 'org.osmdroid:osmdroid-android:5.1@aar'
+    implementation 'org.osmdroid:osmdroid-third-party:5.0.1@aar'
 }
