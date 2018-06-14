@@ -55,6 +55,8 @@ public class MapFragment extends Fragment implements LocationListener {
     IMapController mapController;
     RotationGestureOverlay mRotationGestureOverlay;
     ItemizedIconOverlay<OverlayItem> mMarkerOverlay;
+    ItemizedIconOverlay<OverlayItem> mToiletOverlay;
+    ItemizedIconOverlay<OverlayItem> mToiletDisabledOverlay;
     OverlayItem lastFocus;
     CompassOverlay mCompassOverlay;
     MyLocationNewOverlay mLocationOverlay;
@@ -90,123 +92,177 @@ public class MapFragment extends Fragment implements LocationListener {
     private void setMarker() {
         ArrayList<OverlayItem> items = new ArrayList<>();
         final boolean festivalRunning = Helper.FestivalStart.before(new Date()) &&
-                Helper.FestivalEnd.after(new Date());//*/
+                Helper.FestivalEnd.after(new Date());
 
-        // collect OverlayItems
+        // events / locations
         if(festivalRunning) { // Festival läuft: Events sammeln
             // aktuelle Events sammeln
             Date now = new Date();
             for (Event event : ManageData.getEvents(now, now)) {
                 Location location = ManageData.getLocation(event.locationId);
-                OverlayItem item = new OverlayItem(event.id, null, null,
+                OverlayItem item = new OverlayItem(event.id, "event", null,
                         new GeoPoint(location.lat, location.lng));
+                item.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null));
                 item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
                 items.add(item);
             }
         } else { // Festival läuft nicht: alle Locations zusammensammeln
             for (Location location : ManageData.getLocations()) {
-                OverlayItem item = new OverlayItem(location.id, null, null,
+                OverlayItem item = new OverlayItem(location.id, "location", null,
                         new GeoPoint(location.lat, location.lng));
+                item.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null));
                 item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
                 items.add(item);
             }
         }
 
-        //the overlay
+        // FIXME Hardcoded is no good. Check location items or similar to create it from data.
+        /*** toilets ***/
+        // Martin-Luther-Platz, Pulsnitzer Straße 6
+        OverlayItem wcMLP = new OverlayItem("wcMLP", "toilet", null,
+                new GeoPoint(51.06401, 13.75780));
+        wcMLP.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn, null));
+        wcMLP.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcMLP);
+        // Alaunstraße Ecke Louisenstraße
+        OverlayItem wcAEL = new OverlayItem("wcAEL", "toilet", null,
+                new GeoPoint(51.06670, 13.75222));
+        wcAEL.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn, null));
+        wcAEL.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcAEL);
+        // Rothenburger Straße 21
+        OverlayItem wcRo21 = new OverlayItem("wcRo21", "toilet", null,
+                new GeoPoint(51.06461, 13.75277));
+        wcRo21.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn, null));
+        wcRo21.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcRo21);
+        // Tanzstube (Parkplatz Alaunstraße Ecke Sebnitzer Straße)
+        OverlayItem wcTanzstube = new OverlayItem("wcTanzstube", "toilet", null,
+                new GeoPoint(51.06919, 13.75421));
+        wcTanzstube.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn, null));
+        wcTanzstube.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcTanzstube);
+        // Sebnitzer Straße 31
+        OverlayItem wcSe31 = new OverlayItem("wcSe31", "toilet", null,
+                new GeoPoint(51.06842, 13.75720));
+        wcSe31.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn, null));
+        wcSe31.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcSe31);
+        // Scheune
+        OverlayItem wcScheune = new OverlayItem("wcScheune", "toilet", null,
+                new GeoPoint(51.06629, 13.75141));
+        wcScheune.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn_dis, null));
+        wcScheune.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcScheune);
+        // Panama
+        OverlayItem wcPanama = new OverlayItem("wcPanama", "toilet", null,
+                new GeoPoint(51.06724, 13.75557));
+        wcPanama.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn_dis, null));
+        wcPanama.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcPanama);
+        // Elbsalon
+        OverlayItem wcElbsalon = new OverlayItem("wcElbsalon", "toilet", null,
+                new GeoPoint(51.07126, 13.75082));
+        wcElbsalon.setMarker(ResourcesCompat.getDrawable(getResources(), R.drawable.wc_brn_dis, null));
+        wcElbsalon.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+        items.add(wcElbsalon);
+
+        // the marker overlay
         mMarkerOverlay = new ItemizedIconOverlay<OverlayItem>(
-            items,
-            ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null),
-            new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                @Override
-                public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                    // focus changed
-                    if(lastFocus != null) {
-                        lastFocus.setMarker(ResourcesCompat.getDrawable(
-                                getResources(), R.drawable.marker_default, null
+                items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        if(item.getTitle().equals("toilet")) return false;
+
+                        // focus changed
+                        if(lastFocus != null) {
+                            lastFocus.setMarker(ResourcesCompat.getDrawable(
+                                    getResources(), R.drawable.marker_default, null
+                            ));
+                        }
+                        lastFocus = item;
+                        item.setMarker(ResourcesCompat.getDrawable(
+                                getResources(), R.drawable.marker_default_focused_base, null
                         ));
+
+                        map.invalidate();
+
+                        if(festivalRunning) { // open Event-Dialog
+                            Event e = ManageData.getEvent(item.getUid());
+                            Location l = ManageData.getLocation(e.locationId);
+
+                            View info = View.inflate(getContext(), R.layout.listitem_event, null);
+                            TextView textDate = (TextView) info.findViewById(R.id.textDate);
+                            TextView textTitle = (TextView) info.findViewById(R.id.textTitle);
+                            TextView textLocation = (TextView) info.findViewById(R.id.textLocation);
+                            TextView textUrl = (TextView) info.findViewById(R.id.textUrls);
+                            TextView textText = (TextView) info.findViewById(R.id.textText);
+
+                            textTitle.setText(e.title);
+
+                            if(e.text.length() == 0) {
+                                textText.setVisibility(View.GONE);
+                            } else {
+                                textText.setText(Html.fromHtml(e.text));
+                                textText.setVisibility(View.VISIBLE);
+                            }
+
+                            if(e.url.length() == 0 || e.url.contains("brn-buero.de")) {
+                                textUrl.setVisibility(View.GONE);
+                            } else {
+                                textUrl.setText(e.url);
+                                textUrl.setVisibility(View.VISIBLE);
+                            }
+
+                            // date
+                            SimpleDateFormat time = new SimpleDateFormat("HH:mm 'Uhr'", Locale.GERMANY);
+                            SimpleDateFormat weekDay = new SimpleDateFormat("EEEE", Locale.GERMANY);
+                            Date start = e.dateStart;
+                            Date end = e.dateEnd;
+
+                            String date = weekDay.format(start) + ", " + time.format(start) + " - ";
+                            if(! weekDay.format(start).equals(weekDay.format(end))) {
+                                date += weekDay.format(end) + ", ";
+                            }
+                            date += time.format(end);
+
+                            textDate.setText(date);
+
+                            // location
+                            if (l != null) {
+                                textLocation.setText(l.name + " || " + l.address);
+                                textLocation.setVisibility(View.VISIBLE);
+                            } else {
+                                textLocation.setVisibility(View.GONE);
+                            }
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setView(info)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // do nothing
+                                        }
+                                    });
+                            builder.show();
+                        } else { // open locations
+                            int position =
+                                    ((LocationArrayAdapter) Helper.locationsFragment.lvLocations.getAdapter())
+                                            .getPosition(item.getUid());
+                            if (position > -1) {
+                                Helper.locationsFragment.lvLocations.setSelection(position);
+                                Helper.mainActivity.mViewPager.setCurrentItem(1);
+                            }
+                        }
+
+                        return true;
                     }
-                    lastFocus = item;
-                    item.setMarker(ResourcesCompat.getDrawable(
-                            getResources(), R.drawable.marker_default_focused_base, null
-                    ));
-
-                    map.invalidate();
-
-                    if(festivalRunning) { // open Event-Dialog
-                        Event e = ManageData.getEvent(item.getUid());
-                        Location l = ManageData.getLocation(e.locationId);
-
-                        View info = View.inflate(getContext(), R.layout.listitem_event, null);
-                        TextView textDate = (TextView) info.findViewById(R.id.textDate);
-                        TextView textTitle = (TextView) info.findViewById(R.id.textTitle);
-                        TextView textLocation = (TextView) info.findViewById(R.id.textLocation);
-                        TextView textUrl = (TextView) info.findViewById(R.id.textUrls);
-                        TextView textText = (TextView) info.findViewById(R.id.textText);
-
-                        textTitle.setText(e.title);
-
-                        if(e.text.length() == 0) {
-                            textText.setVisibility(View.GONE);
-                        } else {
-                            textText.setText(Html.fromHtml(e.text));
-                            textText.setVisibility(View.VISIBLE);
-                        }
-
-                        if(e.url.length() == 0 || e.url.contains("brn-buero.de")) {
-                            textUrl.setVisibility(View.GONE);
-                        } else {
-                            textUrl.setText(e.url);
-                            textUrl.setVisibility(View.VISIBLE);
-                        }
-
-                        // date
-                        SimpleDateFormat time = new SimpleDateFormat("HH:mm 'Uhr'", Locale.GERMANY);
-                        SimpleDateFormat weekDay = new SimpleDateFormat("EEEE", Locale.GERMANY);
-                        Date start = e.dateStart;
-                        Date end = e.dateEnd;
-
-                        String date = weekDay.format(start) + ", " + time.format(start) + " - ";
-                        if(! weekDay.format(start).equals(weekDay.format(end))) {
-                            date += weekDay.format(end) + ", ";
-                        }
-                        date += time.format(end);
-
-                        textDate.setText(date);
-
-                        // location
-                        if (l != null) {
-                            textLocation.setText(l.name + " || " + l.address);
-                            textLocation.setVisibility(View.VISIBLE);
-                        } else {
-                            textLocation.setVisibility(View.GONE);
-                        }
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setView(info)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // do nothing
-                                    }
-                                });
-                        builder.show();
-                    } else { // open locations
-                        int position =
-                                ((LocationArrayAdapter) Helper.locationsFragment.lvLocations.getAdapter())
-                                        .getPosition(item.getUid());
-                        if (position > -1) {
-                            Helper.locationsFragment.lvLocations.setSelection(position);
-                            Helper.mainActivity.mViewPager.setCurrentItem(1);
-                        }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
                     }
-
-                    return true;
-                }
-                @Override
-                public boolean onItemLongPress(final int index, final OverlayItem item) {
-                    return false;
-                }
-            },
-            mResourceProxy
+                },
+                mResourceProxy
         );
 
         if(! map.getOverlays().contains(mMarkerOverlay)) map.getOverlays().add(mMarkerOverlay);
