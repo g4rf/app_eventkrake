@@ -85,8 +85,8 @@ android {
         }
         brn2018 {
             applicationId 'de.sophtvaerck.brn2018'
-            versionCode 23
-            versionName '1.23beta'
+            versionCode 24
+            versionName '1.24beta'
             dimension "festival"
             resValue "string", "app_name", "Bunte Republik Neustadt 2018"
             resValue "string", "info_text", "Das ist die App zur Bunten Republik Neustadt.<br />" +
